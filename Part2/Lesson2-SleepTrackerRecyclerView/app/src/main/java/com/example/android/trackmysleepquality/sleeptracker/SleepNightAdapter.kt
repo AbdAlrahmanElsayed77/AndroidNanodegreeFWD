@@ -67,7 +67,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
         }
     }
 
-    class TextViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class TextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         companion object {
             fun from(parent: ViewGroup): TextViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -84,8 +84,8 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
         }
     }
 
-    class ViewHolder private constructor(val binding: ListItemSleepNightBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: ListItemSleepNightBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clickListener: SleepNightListener, item: SleepNight) {
             binding.sleep = item
@@ -125,11 +125,11 @@ class SleepNightListener(val clickListener: (sleepId: Long) -> Unit) {
 }
 
 sealed class DataItem {
-    data class SleepNightItem(val sleepNight: SleepNight): DataItem() {
+    data class SleepNightItem(val sleepNight: SleepNight) : DataItem() {
         override val id = sleepNight.nightId
     }
 
-    object Header: DataItem() {
+    object Header : DataItem() {
         override val id = Long.MIN_VALUE
     }
 
