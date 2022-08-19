@@ -22,11 +22,11 @@ apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.example.android.devbyteviewer"
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -42,11 +42,6 @@ android {
     buildFeatures {
         dataBinding true
     }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
 }
 
 dependencies {
@@ -55,15 +50,15 @@ dependencies {
 
     // Support libraries
     implementation "androidx.appcompat:appcompat:$version_appcompat"
-    implementation "androidx.fragment:fragment-ktx:$version_fragment"
+    implementation "androidx.fragment:fragment:$version_fragment"
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
 
     // Android KTX
     implementation "androidx.core:core-ktx:$version_core"
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
-    implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
+    implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
+    implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
 
     // Coroutines for getting off the UI thread
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
@@ -99,5 +94,5 @@ dependencies {
     implementation "androidx.room:room-ktx:$version_room"
 
     // WorkManager
-    implementation "androidx.work:work-runtime-ktx:$version_work"
+    implementation "android.arch.work:work-runtime-ktx:$version_work"
 }
