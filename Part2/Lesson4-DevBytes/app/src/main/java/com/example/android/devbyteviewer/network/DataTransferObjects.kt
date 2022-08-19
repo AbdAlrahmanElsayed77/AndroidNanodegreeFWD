@@ -26,9 +26,6 @@ import com.squareup.moshi.JsonClass
  * using them.
  */
 
-// TODO (03) Define extension function NetworkVideoHolder.asDatabaseModel(),
-// that returns an array of <DatabaseVideo>.
-
 /**
  * VideoHolder holds a list of Videos.
  *

@@ -11,8 +11,6 @@
 /captures
 .externalNativeBuild
 
-.idea
-.gradle
 
 # gradle
 gradle/
