@@ -1,5 +1,5 @@
-Geofencing - Final code
-=======================
+Geofencing - Starter code
+========================
 
 Solution code for Advanced Android with Kotlin Codelab
 
@@ -15,10 +15,12 @@ Geofencing has a lot of applications including:
 - Attendance, where an employer can know when their employees arrive by the time they enter a geofence.
 - A treasure hunt app that uses geofences to mark the place where the treasure is hidden. When you enter that place, you will be notified that you have won! - This is what you will be making in this codelab!
 
+
 Pre-requisites
 --------------
 - The latest version of Android Studio.
 - A minimum of SDK API 29 on your device or emulator. (This should still work on lower API levels but may look differenti.)
+
 
 Getting Started
 ---------------
