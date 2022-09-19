@@ -16,7 +16,12 @@
 package com.example.android.architecture.blueprints.todoapp.taskdetail
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -39,8 +44,7 @@ class TaskDetailFragment : Fragment() {
     private val args: TaskDetailFragmentArgs by navArgs()
 
     private val viewModel by viewModels<TaskDetailViewModel> {
-        TaskDetailViewModel.TaskDetailViewModelFactory(
-            (requireContext().applicationContext as TodoApplication).taskRepository)
+        TaskDetailViewModelFactory((requireContext().applicationContext as TodoApplication).taskRepository)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -52,12 +56,12 @@ class TaskDetailFragment : Fragment() {
     }
 
     private fun setupNavigation() {
-        viewModel.deleteTaskEvent.observe(viewLifecycleOwner, EventObserver {
+        viewModel.deleteTaskEvent.observe(this, EventObserver {
             val action = TaskDetailFragmentDirections
                 .actionTaskDetailFragmentToTasksFragment(DELETE_RESULT_OK)
             findNavController().navigate(action)
         })
-        viewModel.editTaskEvent.observe(viewLifecycleOwner, EventObserver {
+        viewModel.editTaskEvent.observe(this, EventObserver {
             val action = TaskDetailFragmentDirections
                 .actionTaskDetailFragmentToAddEditTaskFragment(
                     args.taskId,

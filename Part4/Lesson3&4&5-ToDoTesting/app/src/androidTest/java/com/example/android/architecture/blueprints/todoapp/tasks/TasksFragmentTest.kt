@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.android.architecture.blueprints.todoapp.tasks
 
 import android.content.Context
@@ -27,6 +43,10 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
+/**
+ * Integration test for the Task List screen.
+ */
+// TODO - Use FragmentScenario, see: https://github.com/android/android-test/issues/291
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 @ExperimentalCoroutinesApi
@@ -43,34 +63,6 @@ class TasksFragmentTest {
     @After
     fun cleanupDb() = runBlockingTest {
         ServiceLocator.resetRepository()
-    }
-
-    @Test
-    fun clickTask_navigateToDetailFragmentOne() = runBlockingTest {
-        repository.saveTask(Task("TITLE1", "DESCRIPTION1", false, "id1"))
-        repository.saveTask(Task("TITLE2", "DESCRIPTION2", true, "id2"))
-
-        // GIVEN - On the home screen
-        val scenario = launchFragmentInContainer<TasksFragment>(Bundle(), R.style.AppTheme)
-
-        val navController = mock(NavController::class.java)
-        scenario.onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
-
-        // WHEN - Click on the first list item
-        onView(withId(R.id.tasks_list))
-            .perform(
-                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                    hasDescendant(withText("TITLE1")), click()
-                )
-            )
-
-
-        // THEN - Verify that we navigate to the first detail screen
-        verify(navController).navigate(
-            TasksFragmentDirections.actionTasksFragmentToTaskDetailFragment("id1")
-        )
     }
 
     @Test
@@ -92,4 +84,29 @@ class TasksFragmentTest {
             )
         )
     }
+
+    @Test
+    fun clickTask_navigateToDetailFragmentOne() = runBlockingTest {
+        repository.saveTask(Task("TITLE1", "DESCRIPTION1", false, "id1"))
+        repository.saveTask(Task("TITLE2", "DESCRIPTION2", true, "id2"))
+
+        // GIVEN - On the home screen
+        val scenario = launchFragmentInContainer<TasksFragment>(Bundle(), R.style.AppTheme)
+        val navController = mock(NavController::class.java)
+        scenario.onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
+
+        // WHEN - Click on the first list item
+        onView(withId(R.id.tasks_list))
+            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
+                hasDescendant(withText("TITLE1")), click()))
+
+
+        // THEN - Verify that we navigate to the first detail screen
+        verify(navController).navigate(
+            TasksFragmentDirections.actionTasksFragmentToTaskDetailFragment( "id1")
+        )
+    }
+
 }

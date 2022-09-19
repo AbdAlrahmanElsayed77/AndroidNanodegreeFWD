@@ -1,69 +1,92 @@
+/*
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.android.architecture.blueprints.todoapp.statistics
 
 import com.example.android.architecture.blueprints.todoapp.data.Task
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is.`is`
+import org.junit.Assert.assertThat
 import org.junit.Test
 
+/**
+ * Unit tests for [getActiveAndCompletedStats].
+ */
 class StatisticsUtilsTest {
+
     @Test
     fun getActiveAndCompletedStats_noCompleted_returnsHundredZero() {
-
-        // Create an active tasks (the false makes this active)
-        val tasks = listOf<Task>(
+        val tasks = listOf(
             Task("title", "desc", isCompleted = false)
         )
-        // Call our function
+        // When the list of tasks is computed with an active task
         val result = getActiveAndCompletedStats(tasks)
 
-        // Check the result
-        assertThat(result.completedTasksPercent, `is`(0f))
+        // Then the percentages are 100 and 0
         assertThat(result.activeTasksPercent, `is`(100f))
+        assertThat(result.completedTasksPercent, `is`(0f))
+    }
 
+    @Test
+    fun getActiveAndCompletedStats_noActive_returnsZeroHundred() {
+        val tasks = listOf(
+            Task("title", "desc", isCompleted = true)
+        )
+        // When the list of tasks is computed with a completed task
+        val result = getActiveAndCompletedStats(tasks)
+
+        // Then the percentages are 0 and 100
+        assertThat(result.activeTasksPercent, `is`(0f))
+        assertThat(result.completedTasksPercent, `is`(100f))
     }
 
     @Test
     fun getActiveAndCompletedStats_both_returnsFortySixty() {
-
-        // Create an active tasks (the false makes this active)
-        val tasks = listOf<Task>(
+        // Given 3 completed tasks and 2 active tasks
+        val tasks = listOf(
             Task("title", "desc", isCompleted = true),
             Task("title", "desc", isCompleted = true),
-            Task("title", "desc", isCompleted = false),
+            Task("title", "desc", isCompleted = true),
             Task("title", "desc", isCompleted = false),
             Task("title", "desc", isCompleted = false)
         )
-        // Call our function
+        // When the list of tasks is computed
         val result = getActiveAndCompletedStats(tasks)
 
-        // Check the result
-        assertThat(result.completedTasksPercent, `is`(40f))
-        assertThat(result.activeTasksPercent, `is`(60f))
+        // Then the result is 40-60
+        assertThat(result.activeTasksPercent, `is`(40f))
+        assertThat(result.completedTasksPercent, `is`(60f))
     }
 
     @Test
-    fun getActiveAndCompletedStats_empty_returnsZero() {
+    fun getActiveAndCompletedStats_error_returnsZeros() {
+        // When there's an error loading stats
+        val result = getActiveAndCompletedStats(null)
 
-        // Create an active tasks (the false makes this active)
-        val tasks = emptyList<Task>()
-        // Call our function
-        val result = getActiveAndCompletedStats(tasks)
-
-        // Check the result
-        assertThat(result.completedTasksPercent, `is`(0f))
+        // Both active and completed tasks are 0
         assertThat(result.activeTasksPercent, `is`(0f))
+        assertThat(result.completedTasksPercent, `is`(0f))
     }
 
     @Test
-    fun getActiveAndCompletedStats_error_returnsZero() {
+    fun getActiveAndCompletedStats_empty_returnsZeros() {
+        // When there are no tasks
+        val result = getActiveAndCompletedStats(emptyList())
 
-        // Create an active tasks (the false makes this active)
-        val tasks = null
-        // Call our function
-        val result = getActiveAndCompletedStats(tasks)
-
-        // Check the result
-        assertThat(result.completedTasksPercent, `is`(0f))
+        // Both active and completed tasks are 0
         assertThat(result.activeTasksPercent, `is`(0f))
+        assertThat(result.completedTasksPercent, `is`(0f))
     }
 }
